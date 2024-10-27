@@ -1,6 +1,12 @@
 import mongoose from 'mongoose';
+const { Schema } = mongoose;
 
 const courseSchema = new mongoose.Schema({
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: [true, 'User ID is required']
+  },
   title: {
     type: String,
     required: true,
@@ -16,7 +22,6 @@ const courseSchema = new mongoose.Schema({
   description: {
     type: String,
     required: false,
-    minlength: 50,
   },
   coverImage: {
     type: String,
