@@ -60,17 +60,9 @@ const LogIn = async (email, password) => {
     // Check if user exists by email
     const userData = await User.findOne({ email, isActive: true });
     if (!userData) {
-      throw {
+      return {
         message: "User does not exist",
         code: "userNotFound",
-      };
-    }
-
-    // Check if the device login count exceeds the limit
-    if (userData.deviceLoginCount >= 3) {
-      throw {
-        message: "Login limit exceeded. Please contact support.",
-        code: "loginLimitExceeded",
       };
     }
 
@@ -80,6 +72,14 @@ const LogIn = async (email, password) => {
       return {
         message: "Invalid password",
         code: "invalidPassword",
+      };
+    }
+
+    // Check if the device login count exceeds the limit
+    if (userData.deviceLoginCount >= 3) {
+      return {
+        message: "Login limit exceeded. Please contact support.",
+        code: "loginLimitExceeded",
       };
     }
 
@@ -160,7 +160,10 @@ const GoogleLogIn = async (code) => {
     }
 
     if (user.deviceLoginCount >= 3) {
-      throw new Error("Login limit exceeded. Please contact support.");
+      return {
+        message: "Login limit exceeded. Please contact support.",
+        code: "loginLimitExceeded",
+      };
     }
 
     // Generate access and refresh tokens
@@ -204,10 +207,8 @@ const GithubLogIn = async (code) => {
         });
 
         const tokenData = await tokenResponse.json();
-        console.log(tokenData, "tokenData");
 
         const accessToken = tokenData.access_token;
-        console.log(accessToken, "accessToken");
 
         // Step 2: Fetch user data from GitHub using the access token
         const userResponse = await fetch('https://api.github.com/user', {
@@ -264,7 +265,10 @@ const GithubLogIn = async (code) => {
         }
 
         if (user.deviceLoginCount >= 3) {
-            throw new Error("Login limit exceeded. Please contact support.");
+          return {
+          message: "Login limit exceeded. Please contact support.",
+          code: "loginLimitExceeded",
+        };
         }
 
         // Step 5: Generate access and refresh tokens for the existing user
@@ -302,7 +306,7 @@ const Logout = async (logoutDevices, userId) => {
     // Check if user exists by email
     const userData = await User.findOne({ _id: userId });
     if (!userData) {
-      throw {
+      return {
         message: "User does not exist",
         code: "userNotFound",
       };
@@ -335,7 +339,12 @@ const updateAccessToken= async (refreshToken) => {
     let payload = await jwt.refreshDecode(refreshToken);
     const userData = await User.findOne({ _id: payload?.userId, isActive: true });
 
-    if (!userData) throw new Error("No user found in token");
+    if (!userData) {
+      return {
+        message: "User does not exist",
+        code: "userNotFound",
+      };
+    }
 
     let {accessToken} = await jwt.refreshSign(userData);
 
