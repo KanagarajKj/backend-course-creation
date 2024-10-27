@@ -6,7 +6,7 @@ const sign = async (user) => {
     const JWT_ACCESS_SECRET = process.env.ACCESS_TOKEN_SECRET || "secret";
 
     const refreshToken = jwt.sign({ userId: user._id }, JWT_REFRESH_SECRET);
-    const token = jwt.sign({ userId: user._id },JWT_ACCESS_SECRET,{ expiresIn: 15 * 60 });
+    const token = jwt.sign({ userId: user._id },JWT_ACCESS_SECRET,{ expiresIn: "1d" });
 
     return { token, refreshToken };
   } catch (error) {
@@ -38,7 +38,7 @@ const refreshSign = async (user) => {
     const accessToken = jwt.sign(
       { userId: user._id },
       JWT_ACCESS_SECRET,
-      { expiresIn: 15 * 60 }
+      { expiresIn: "1d" }
     );
 
     return { accessToken };

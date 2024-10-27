@@ -6,6 +6,7 @@ import mongoose from 'mongoose';
 import {connectDB} from './config/db.js';
 import userAuthRouter from './controllers/authControllers.js';
 import userDataRouter from './controllers/userControllers.js';
+import courseDataRouter from './controllers/courseControllers.js';
 
 dotenv.config();
 
@@ -37,6 +38,7 @@ app.get('/', (req, res) => {
 // Use the user authentication routes
 app.use("/api", userAuthRouter);
 app.use("/auth", userDataRouter);
+app.use("/course", courseDataRouter);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
