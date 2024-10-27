@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+const { Schema } = mongoose;
 
 // Discussion Schema
 const discussionSchema = new Schema({

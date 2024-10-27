@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+const { Schema } = mongoose;
 
 // Topic Schema
 const topicSchema = new Schema({
@@ -11,17 +12,12 @@ const topicSchema = new Schema({
     type: String,
     required: true
   },
+  description: {
+    type: String,
+    required: true
+  },
   content: {
     type: String,
-    required: true
-  },
-  order: {
-    type: Number,
-    required: true
-  },
-  type: {
-    type: String,
-    enum: ['video', 'article', 'quiz', 'assignment'],
     required: true
   },
   videoUrl: {
@@ -32,9 +28,7 @@ const topicSchema = new Schema({
   },
   duration: {
     type: Number,  // Duration in minutes
-    required: function() {
-      return this.type === 'video';
-    }
+    required: false
   },
   attachments: [{
     name: String,

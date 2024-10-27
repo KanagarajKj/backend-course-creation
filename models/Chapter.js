@@ -16,14 +16,6 @@ const chapterSchema = new Schema({
     type: String,
     required: false
   },
-  order: {
-    type: Number,
-    required: true
-  },
-  isPublished: {
-    type: Boolean,
-    default: false
-  },
   duration: {
     type: Number,  // Duration in minutes
     required: false
