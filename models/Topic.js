@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 const { Schema } = mongoose;
 
-// Topic Schema
 const topicSchema = new Schema({
   chapterId: {
     type: Schema.Types.ObjectId,

@@ -16,7 +16,7 @@ courseDataRouter.post('/create-course', authMiddleware, async (req, res) => {
 
     const requiredFields = [
       'title',
-      'chapter',
+      'category',
     //   'level',
     //   'description',
     //    'faq',
@@ -64,7 +64,7 @@ courseDataRouter.get('/get-course/:userId', authMiddleware, async (req, res) => 
       });
     }
 
-    res.status(200).json({ data: courseData });
+    res.status(200).json({ courseData });
   } catch (error) {
     console.error("Error in get course controller:", error);
     res.status(500).json({

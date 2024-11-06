@@ -33,17 +33,22 @@ const createCourse = async (data) => {
 
 const getCoursesByUserId = async (userId) => {
   try {
-    console.log(userId,"userId")
-    const courses = await Course.find({ userId: userId });
-    console.log(courses,"courses")
-    return courses;
+    const courses = await Course.find({ userId });
+    
+    const data = courses.map((course, index) => {
+      const object = {
+        id: course._id,
+        ...course.toObject(),
+        isOpen: index === 0,
+      };
+      delete object._id;
+      return object;
+    });
+    
+    return data;
   } catch (error) {
     console.error("Error in fetching courses by user ID:", error);
-    return {
-      message: "Unable to fetch courses",
-      code: "fetchError",
-      error: error.message,
-    };
+    throw new Error("Unable to fetch courses");
   }
 };
 

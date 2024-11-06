@@ -11,11 +11,11 @@ const courseSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  chapter: {
+  category: {
     type: String,
     required: true,
   },
-  level: {
+  duration: {
     type: String,
     required: false,
   },
